@@ -1,0 +1,6 @@
+{
+    "git.ignoreLimitWarning": true,
+    "python.linting.pylintPath": "venv/bin/pylint",
+    "python.formatting.provider": "black"
+    
+}
