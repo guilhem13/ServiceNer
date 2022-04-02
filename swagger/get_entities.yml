@@ -1,0 +1,33 @@
+openapi: 3.0.3
+tags:
+  - "Upload a PDF file "
+summary: "Upload a PDF file"
+description: "This route allows the user to upload a pdf file and return the entities detected in this file"
+consumes:
+- multipart/form-data
+produces:
+- "application/json"
+post:
+  description: "Upload a pdf file"
+parameters:
+  - name: file
+    in: formData
+    description: "pdf which have to be uploaded"
+    type: file
+    required: true
+responses:
+    '200':
+          description: "Successful response"
+          schema:
+            type: "array"
+            
+    '400':
+          description: "Wrong files uploaded "
+          schema:
+            type: "array"
+            
+    '500':
+          description: "Internal Server Error"
+          schema:
+            type: "array"
+            

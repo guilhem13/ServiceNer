@@ -1,12 +1,13 @@
 import json
 import flask
+import multiprocessing as mp
 from flasgger import Swagger, swag_from
 from flask import Response,request
 from waitress import serve
 from knowledgegraph.models.notificationmodel import Notification
 from knowledgegraph.models.datamodel import DataPaper
 from knowledgegraph.controller.treatment.mainprocess import Pipeline
-import multiprocessing as mp
+
 
 app = flask.Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "."
@@ -18,7 +19,9 @@ def main_function(block_paper):
     batch_size = 5
     return p.make_traitement_pipeline(block_paper, out_queue, batch_size)
 
+
 @app.route("/get/entities", methods=["GET", "POST"])
+@swag_from("swagger/get_entities.yml")
 def upload_file():
     """Endpoint returning list of Entities based on references part analysis
     """
