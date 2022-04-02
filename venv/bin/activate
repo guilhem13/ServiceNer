@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/guigui/Documents/ProjetPyhtonAPI/venv"
+VIRTUAL_ENV="/home/guigui/Documents/ServiceNER/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

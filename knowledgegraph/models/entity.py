@@ -1,5 +1,9 @@
 class Entity:
 
+    """
+    Data model witch represents a person 
+    """
+
     prenom = (None,)
     nom = None
     name = (

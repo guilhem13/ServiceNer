@@ -1,4 +1,4 @@
-#!/home/guigui/Documents/ProjetPyhtonAPI/venv/bin/python3
+#!/home/guigui/Documents/ServiceNER/venv/bin/python3
 """Extract pdf structure in XML format"""
 import logging
 import os.path

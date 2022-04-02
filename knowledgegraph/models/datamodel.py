@@ -1,5 +1,9 @@
 class DataPaper:
 
+    """
+    Data model witch represent a paper with its information found in its body 
+    """
+
     doi = None
     link = None
     entities_from_reference = None

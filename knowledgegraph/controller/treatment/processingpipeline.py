@@ -1,12 +1,14 @@
 import re
 import unicodedata
-from knowledgegraph.controller.data.arxiv import Data
 from knowledgegraph.models import Entity
 from .pdfx import PDFx
 from .undesirable_char import undesirable_char_replacements
 
 
 class Textprocessed:
+    """
+     Class which makes the processing of paper in order to extract its entities 
+    """
     url = None
     raw_text = None
 
@@ -160,6 +162,42 @@ class Textprocessed:
                 stop = True
             index +=1
         return check_forbidden_word
+    
+    def process_authors(self, list_authors):
+        if len(list_authors) > 0:
+            result = []
+            for i in range(len(list_authors)):
+                auteur = str(list_authors[i])
+                seperate_name = auteur.split(" ")
+
+                if (
+                    len(seperate_name) > 2
+                ):  # Prend en compte les noms du type David A. Strubbe
+                    p = Entity()
+                    p.set_prenom(" ".join(seperate_name[0:-1]).strip())
+                    p.set_nom(seperate_name[-1].strip())
+                    if len(p.nom) > 2:
+                        p.set_name(p.nom + p.prenom)
+                        result.append(p)
+                else:
+                    if len(seperate_name) > 1:  # cas normal nom prénom
+                        p = Entity()
+                        p.set_prenom(seperate_name[0].strip())
+                        p.set_nom(seperate_name[1].strip())
+                        if len(p.nom) > 2:
+                            p.set_name(p.nom + p.prenom)
+                            result.append(p)
+                    else:
+                        p = Entity()  # cas pas normal juste nom ou erreur
+                        p.set_prenom("Nofirstname")
+                        p.set_nom(seperate_name[0].strip())
+                        p.set_name(p.nom + p.prenom)
+                        if len(p.nom) > 2:
+                            result.append(p)
+            return result
+        else:
+            print("No authors on this paper")
+            return None
 
     def get_format_ieee(
         self, text
@@ -290,7 +328,7 @@ class Textprocessed:
             regex_remove2 = re.compile("^[A-Z]\. [A-Z]$")
             result = [x for x in result if regex_remove.match(x) == None]  # remove "A. R "  part
             result = [x for x in result if regex_remove2.match(x) == None]
-            result = Data(1).process_authors(result)
+            result = self.process_authors(result)
             result =[x for x in result if self.filter_entities(x)==False] #filter wrong found based on a specific format guilhem maillebuau, and pettter brown 
             Entitylist.extend(result)
         else:
@@ -672,7 +710,7 @@ class Textprocessed:
         if len(result_full_name2) > 0:
             result2 += result_full_name2
         if len(result2) > 0:
-            result2 = Data(1).process_authors(result2[index_end_apa:])
+            result2 = self.process_authors(result2[index_end_apa:])
             Entitylist.extend(result2)
 
         return Entitylist
