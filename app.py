@@ -21,7 +21,7 @@ def main_function(block_paper):
     return p.make_traitement_pipeline(block_paper, out_queue, batch_size)
 
 
-@app.route("/get/entities", methods=["GET", "POST"])
+@app.route("/get/entities", methods=["POST"])
 @swag_from("swagger/get_entities.yml")
 def upload_file():
     """Endpoint returning list of Entities based on references part analysis"""
