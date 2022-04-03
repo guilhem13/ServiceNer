@@ -43,21 +43,65 @@ export FLASK_APP=app.py
 export FLASK_ENV=development
 flask run
 ```
-if flask run doesn't work make : 
+if flask run doesn't work (In developement) make : 
 
 ```shell
 python -m flask run
 ```
+***
+## Run with docker
 
-## Run with docker file 
+### Installation
 
 ```shell
 docker build -t servicener .
 ```
+### Installation
 
 ```shell
 docker run -d -p 5000:5000 servicener
 ```
+
+## Utilization 
+
+### Usage
+
+Documentation is available on swagger with the url 
+
+```shell
+http://localhost:5000/apidocs/
+```
+
+Web Service is accessible by a post request with the url : 
+```shell
+http://localhost:5000/get/entities
+```
+and data schema entrypoint : 
+
+```shell
+json_data = {
+            'papier_1':'https://export.arxiv.org/pdf/2203.06419v1',
+            'papier_2':'https://export.arxiv.org/pdf/2203.06416v1',
+            'papier_3':'https://export.arxiv.org/pdf/2203.07372v1',  
+            'papier_4':'https://export.arxiv.org/pdf/2203.08878v1',
+            'papier_5':'https://export.arxiv.org/pdf/2203.08958v1'
+            }
+```
+### Exemple client request
+
+```shell
+json_data = {
+            'papier_1':'https://export.arxiv.org/pdf/2203.06419v1',
+            'papier_2':'https://export.arxiv.org/pdf/2203.06416v1',
+            'papier_3':'https://export.arxiv.org/pdf/2203.07372v1',  
+            'papier_4':'https://export.arxiv.org/pdf/2203.08878v1',
+            'papier_5':'https://export.arxiv.org/pdf/2203.08958v1'
+            }
+            
+headers = {'content-type': 'application/json'}
+response = requests.post(url = "http://localhost:5000/get/entities", data =json.dumps(json_data), headers = headers)
+```
+
 
 
 

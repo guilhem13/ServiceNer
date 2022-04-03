@@ -3,10 +3,12 @@ import multiprocessing as mp
 import time
 from knowledgegraph.controller.treatment.processingpipeline import Textprocessed
 
+
 class Pipeline:
     """
-    Object which manage the multiprocessing of batch arxiv data (5 papers) in order to extract their entities 
+    Object which manage the multiprocessing of batch arxiv data (5 papers) in order to extract their entities
     """
+
     start = None
 
     def __init__(self, arxiv_url, start):
@@ -15,19 +17,19 @@ class Pipeline:
         pass
 
     def multi_process(self, data, out_queue):
-        time.sleep(3) # Because of APi arxiv legacy we have to wait 3 sec per requests 
+        time.sleep(3)  # Because of APi arxiv legacy we have to wait 3 sec per requests
         processor = Textprocessed(data.link)
         print(data.link)
         text_processed = processor.get_data_from_pdf()
         data.entities_include_in_text = processor.find_entities_in_raw_text()
         entities_from_regex = processor.find_entites_based_on_regex(text_processed)
-        data.entities_from_reference = entities_from_regex 
+        data.entities_from_reference = entities_from_regex
         data.url_in_text = processor.find_url_in_text()
         data.doi_in_text = processor.find_doi_in_text()
         out_queue.put(data)
 
     def make_traitement_pipeline(self, block_paper, out_queue, batch_size):
-        res_lst = []    
+        res_lst = []
         workers = [
             mp.Process(target=self.multi_process, args=(ele, out_queue))
             for ele in block_paper
@@ -42,4 +44,3 @@ class Pipeline:
             res_lst.append(out_queue.get())
 
         return res_lst
-

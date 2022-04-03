@@ -2,7 +2,7 @@ import json
 import flask
 import multiprocessing as mp
 from flasgger import Swagger, swag_from
-from flask import Response,request
+from flask import Response, request
 from waitress import serve
 from knowledgegraph.models.notificationmodel import Notification
 from knowledgegraph.models.datamodel import DataPaper
@@ -24,19 +24,20 @@ def main_function(block_paper):
 @app.route("/get/entities", methods=["GET", "POST"])
 @swag_from("swagger/get_entities.yml")
 def upload_file():
-    """Endpoint returning list of Entities based on references part analysis
-    """
+    """Endpoint returning list of Entities based on references part analysis"""
     if request.method == "POST":
 
-        try: 
+        try:
             data = request.json
             block_arxiv = []
-            for key, value in list(data.items()): 
+            for key, value in list(data.items()):
                 data_paper = DataPaper(value)
                 print(data_paper.__dict__)
                 block_arxiv.append(data_paper)
             result = main_function(block_arxiv)
-            res = json.dumps([json.dumps(o.__dict__, default=lambda x: x.__dict__) for o in result])
+            res = json.dumps(
+                [json.dumps(o.__dict__, default=lambda x: x.__dict__) for o in result]
+            )
             return res
 
         except Exception as e:
@@ -75,6 +76,7 @@ def internal_server_error(error):
         status=404,
         mimetype="application/json",
     )
+
 
 ##########################################################################################
 

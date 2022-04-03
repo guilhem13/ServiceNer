@@ -2,7 +2,7 @@ FROM debian:11
 
 ADD . /ServiceNER
 WORKDIR /ServiceNER
-EXPOSE 6000
+EXPOSE 5000
 
 COPY requirements.txt .
 RUN apt-get update -q -y

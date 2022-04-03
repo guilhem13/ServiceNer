@@ -1,14 +1,12 @@
 class Entity:
 
     """
-    Data model witch represents a person 
+    Data model witch represents a person
     """
 
     prenom = (None,)
     nom = None
-    name = (
-        None,
-    )  
+    name = (None,)
 
     def __init__(self):
 
@@ -23,7 +21,7 @@ class Entity:
 
     def set_name(self, x):
         self.name = x
-    
+
     def get_prenom(self):
         return self.prenom
 

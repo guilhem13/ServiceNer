@@ -7,8 +7,9 @@ from .undesirable_char import undesirable_char_replacements
 
 class Textprocessed:
     """
-     Class which makes the processing of paper in order to extract its entities 
+    Class which makes the processing of paper in order to extract its entities
     """
+
     url = None
     raw_text = None
 
@@ -31,8 +32,15 @@ class Textprocessed:
         except:
             temp = Pdf_Readed
 
-
-        keyword_list = ["\n\nReferences\n\n","\nReferences\n","\nREFERENCES\n","\nreferences\n","REFERENCES","References\n","References"]  
+        keyword_list = [
+            "\n\nReferences\n\n",
+            "\nReferences\n",
+            "\nREFERENCES\n",
+            "\nreferences\n",
+            "REFERENCES",
+            "References\n",
+            "References",
+        ]
         forbidden_part = [
             "Appendices",
             "Appendix",
@@ -61,9 +69,7 @@ class Textprocessed:
                     delta = max(index_keyword) - min(index_keyword)
                     if delta < 14:
                         keyword = str(keyword[0])
-                        indexstart = temp.index(
-                            keyword
-                        )  
+                        indexstart = temp.index(keyword)
                         indexstartstring = temp[indexstart:]
                         indexend = [
                             indexstartstring.find(ele) for ele in forbidden_part
@@ -77,9 +83,7 @@ class Textprocessed:
                         return result
                     else:  # cas où il y a plusieurs références dans le texte avec des formats diffférents
                         keyword = str(keyword[-1])
-                        indexstart = temp.index(
-                            keyword
-                        )  
+                        indexstart = temp.index(keyword)
                         indexstartstring = temp[indexstart:]
                         indexend = [
                             indexstartstring.find(ele) for ele in forbidden_part
@@ -93,9 +97,7 @@ class Textprocessed:
                         return result
                 else:
                     if temp.count("Reference") == 1:
-                        indexstart = temp.index(
-                            "Reference"
-                        )  
+                        indexstart = temp.index("Reference")
                         indexend = [
                             temp[indexstart:].find(ele) for ele in forbidden_part
                         ]
@@ -138,22 +140,67 @@ class Textprocessed:
                     listaverifier[i] = "TOREMOVE"
         listaverifier = [x for x in listaverifier if x != "TOREMOVE"]
         return listaverifier
-    
+
     def filter_entities(self, entity):
         check_forbidden_word = False
-        stop =False
+        stop = False
         index = 0
-        forbidden_list =['Analysis','Pattern','Recognition','Vision','Computer','Learning','Machine','Artificial','Intelligence','Computer','Science','Representation','Continuous','Facilities','Council','Dominican','Republic','Multiagent','Systems','Autonomous','Agents','Biometrics','Lab','Physics','Neural','Systems','Mathematics','Mathematical','Computational','Meta-Learning',"Parameter","Available","Online","Practical","Momentum","AGCN","AGCN","Engineering","Data","Retrieval","Programming","Research","Verification","Network"]
-        while index < len(forbidden_list) or stop == False: 
-            if entity.get_nom == forbidden_list[index]:
+        forbidden_list = [
+            "Analysis",
+            "Pattern",
+            "Recognition",
+            "Vision",
+            "Computer",
+            "Learning",
+            "Machine",
+            "Artificial",
+            "Intelligence",
+            "Computer",
+            "Science",
+            "Representation",
+            "Continuous",
+            "Facilities",
+            "Council",
+            "Dominican",
+            "Republic",
+            "Multiagent",
+            "Systems",
+            "Autonomous",
+            "Agents",
+            "Biometrics",
+            "Lab",
+            "Physics",
+            "Neural",
+            "Systems",
+            "Mathematics",
+            "Mathematical",
+            "Computational",
+            "Meta-Learning",
+            "Parameter",
+            "Available",
+            "Online",
+            "Practical",
+            "Momentum",
+            "AGCN",
+            "AGCN",
+            "Engineering",
+            "Data",
+            "Retrieval",
+            "Programming",
+            "Research",
+            "Verification",
+            "Network",
+        ]
+        while index < len(forbidden_list) or stop == False:
+            if entity.nom == forbidden_list[index]:
                 check_forbidden_word = True
-            if entity.get_prenom == forbidden_list[index]:
+            if entity.prenom == forbidden_list[index]:
                 check_forbidden_word = True
-            if index ==len(forbidden_list)-1:
+            if index == len(forbidden_list) - 1:
                 stop = True
-            index +=1
+            index += 1
         return check_forbidden_word
-    
+
     def convertto_entitieslist(self, list_ref):
         if len(list_ref) > 0:
             result = []
@@ -179,7 +226,9 @@ class Textprocessed:
                             p.set_name(p.nom + p.prenom)
                             result.append(p)
                     else:
-                        p = Entity()  # cas pas normal, juste un nom ou une erreur issue de la détection
+                        p = (
+                            Entity()
+                        )  # cas pas normal, juste un nom ou une erreur issue de la détection
                         p.set_prenom("Nofirstname")
                         p.set_nom(seperate_name[0].strip())
                         p.set_name(p.nom + p.prenom)
@@ -305,9 +354,9 @@ class Textprocessed:
                 firstformat = self.check_doublon(result, firstformat)
             firstformat = list(set(firstformat))
             result = result + firstformat
-    
-        index_end_ieee = len(result)-1
-        result2=[]
+
+        index_end_ieee = len(result) - 1
+        result2 = []
         result_full_name = self.get_format_full_name(result, text)
         if len(result_full_name) > 0:
             result2 += result_full_name
@@ -318,15 +367,19 @@ class Textprocessed:
         if len(result) > 0:
             regex_remove = re.compile("^[A-Z]\. [A-Z]\.$")
             regex_remove2 = re.compile("^[A-Z]\. [A-Z]$")
-            result = [x for x in result if regex_remove.match(x) == None]  # remove "A. R "  part
+            result = [
+                x for x in result if regex_remove.match(x) == None
+            ]  # remove "A. R "  part
             result = [x for x in result if regex_remove2.match(x) == None]
             result = self.convertto_entitieslist(result)
-            result =[x for x in result if self.filter_entities(x)==False] #filter wrong results due to the format => guilhem maillebuau, and pettter brown 
+            result = [
+                x for x in result if self.filter_entities(x) == False
+            ]  # filter wrong results due to the format => guilhem maillebuau, and pettter brown
             Entitylist.extend(result)
 
-        if len(result2)>0:
+        if len(result2) > 0:
             result2 = self.convertto_entitieslist(result2[index_end_ieee:])
-            result2 = [x for x in result2 if self.filter_entities(x)==False]
+            result2 = [x for x in result2 if self.filter_entities(x) == False]
             Entitylist.extend(result2)
 
         return Entitylist
@@ -516,7 +569,9 @@ class Textprocessed:
 
         return result
 
-    def get_format_full_name_two(self, listofreference, text):  # ACM 2 sans espace entre les noms 
+    def get_format_full_name_two(
+        self, listofreference, text
+    ):  # ACM 2 sans espace entre les noms
         result = listofreference
         # Entitylist =[]
         tenformat = self.find_regex_style(
@@ -620,7 +675,9 @@ class Textprocessed:
         if len(result) > 0:
             regex_remove = re.compile("^[A-Z]\. [A-Z]\.$")
             regex_remove2 = re.compile("^[A-Z]\. [A-Z]$")
-            result = [x for x in result if regex_remove.match(x) == None]  # remove "A. R "  part
+            result = [
+                x for x in result if regex_remove.match(x) == None
+            ]  # remove "A. R "  part
             result = [x for x in result if regex_remove2.match(x) == None]
         else:
             pass
@@ -694,7 +751,7 @@ class Textprocessed:
                 p.set_prenom(temp[1].strip())
                 p.set_nom(temp[0].strip())
                 p.set_name(str(temp[0].strip() + temp[1].strip()))
-                if self.filter_entities(p) == False: 
+                if self.filter_entities(p) == False:
                     Entitylist.append(p)
 
         index_end_apa = len(result) - 1
@@ -706,7 +763,9 @@ class Textprocessed:
             result2 += result_full_name2
         if len(result2) > 0:
             result2 = self.convertto_entitieslist(result2[index_end_apa:])
-            result2 =[x for x in result2 if self.filter_entities(x)==False] ####CHANGE HERE FOR REMOVE ANALYSIS PATTERN
+            result2 = [
+                x for x in result2 if self.filter_entities(x) == False
+            ]  ####CHANGE HERE FOR REMOVE ANALYSIS PATTERN
             Entitylist.extend(result2)
 
         return Entitylist
@@ -716,14 +775,14 @@ class Textprocessed:
         check_apa_style = self.find_regex_style(
             "[A-Z][a-z]+,\s[A-Z]\.+[,;]\s[A-Z][a-z]+,\s[A-Z]\.", text
         )
-        if len(check_apa_style) > 0: #Check if it's an Apa style 
+        if len(check_apa_style) > 0:  # Check if it's an Apa style
             result_second_format = self.get_format_apa(text)
             print("inside APA")
-            final_entity_list = result_second_format 
+            final_entity_list = result_second_format
         else:
             result_format_ieee = self.get_format_ieee(text)
             print("inside IEEE")
-            final_entity_list = result_format_ieee  
+            final_entity_list = result_format_ieee
 
         return final_entity_list
 

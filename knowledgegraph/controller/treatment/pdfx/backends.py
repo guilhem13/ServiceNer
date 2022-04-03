@@ -3,8 +3,7 @@
 PDF Backend: pdfMiner
 """
 
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import logging
 import sys
@@ -13,6 +12,7 @@ from re import compile
 
 # Character Detection Helper
 import chardet
+
 # Setting `psparser.STRICT` is the first thing to do because it is
 # referenced in the other pdfparser modules
 from pdfminer import settings as pdfminer_settings
@@ -26,8 +26,7 @@ from pdfminer import psparser  # noqa: E402
 from pdfminer.converter import TextConverter  # noqa: E402
 from pdfminer.layout import LAParams  # noqa: E402
 from pdfminer.pdfdocument import PDFDocument  # noqa: E402
-from pdfminer.pdfinterp import (PDFPageInterpreter,  # noqa: E402
-                                PDFResourceManager)
+from pdfminer.pdfinterp import PDFPageInterpreter, PDFResourceManager  # noqa: E402
 from pdfminer.pdfpage import PDFPage  # noqa: E402
 from pdfminer.pdfparser import PDFParser  # noqa: E402
 from pdfminer.pdftypes import PDFObjRef, resolve1  # noqa: E402
