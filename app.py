@@ -13,7 +13,7 @@ app = flask.Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "."
 swagger = Swagger(app)
 
-
+############################### Main route ########################################
 def main_function(block_paper):
     p = Pipeline("https://export.arxiv.org/pdf/", 0)
     out_queue = mp.Queue()
