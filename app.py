@@ -11,6 +11,7 @@ from knowledgegraph.controller.treatment.mainprocess import Pipeline
 
 app = flask.Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "."
+swagger = Swagger(app)
 
 
 def main_function(block_paper):
@@ -78,4 +79,4 @@ def internal_server_error(error):
 ##########################################################################################
 
 if __name__ == "__main__":
-    serve(app, host="0.0.0.0", port=6000)
+    serve(app, host="0.0.0.0", port=5000)

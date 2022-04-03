@@ -1,7 +1,7 @@
 import json
 
 """
-This class return a json with id_error and its message for the user
+This class return a json with id and its message for the user
 """
 class Notification:
 

@@ -38,6 +38,7 @@ python3 app.py
 In developement 
 
 ```shell
+export FLASK_RUN_PORT=5000
 export FLASK_APP=app.py
 export FLASK_ENV=development
 flask run
@@ -55,7 +56,7 @@ docker build -t servicener .
 ```
 
 ```shell
-docker run -d -p 6000:6000 servicener
+docker run -d -p 5000:5000 servicener
 ```
 
 

@@ -5,9 +5,8 @@ from knowledgegraph.controller.treatment.processingpipeline import Textprocessed
 
 class Pipeline:
     """
-    Object which manage the multiprocessing of batch arxiv data (5 papers) in order to extract entities 
+    Object which manage the multiprocessing of batch arxiv data (5 papers) in order to extract their entities 
     """
-
     start = None
 
     def __init__(self, arxiv_url, start):
@@ -16,7 +15,7 @@ class Pipeline:
         pass
 
     def multi_process(self, data, out_queue):
-        time.sleep(3) # Because of APi arxiv legacy whe have to wait 3 sec per requests 
+        time.sleep(3) # Because of APi arxiv legacy we have to wait 3 sec per requests 
         processor = Textprocessed(data.link)
         print(data.link)
         text_processed = processor.get_data_from_pdf()
