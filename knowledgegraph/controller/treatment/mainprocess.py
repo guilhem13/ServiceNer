@@ -49,7 +49,7 @@ class Pipeline:
         for j in range(len(workers)):
             res_lst.append(out_queue.get())
             
-        #check car parfois les fichiers ne sont même plus sur la platefrome     
+        #check car parfois les fichiers ne sont même plus sur la platefrome d'arxiv mais toujours dans l'API     
         res_lst = [x for x in res_lst if x.entities_from_reference != "file not exists"]
 
         return res_lst

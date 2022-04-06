@@ -1,16 +1,16 @@
 openapi: 3.0.3
 tags:
   - "get entities from batch"
-summary: "Return all the entities found inside a batch of [1;5] papers"
-description: "This route allows the user to use this entrypoint as a post request. This entrypoint return all the entities found inside the links puts as inputs"
+summary: "Return all the entities found inside a batch of X papers (X url links of arxiv paper)"
+description: "This route allows the user to use this entrypoint as a post request. This entrypoint return all the entities found inside the links puts as inputs. It also returns DOI (international paper Id) found in text and url of institutions/school/website etc "
 consumes:
 - "application/json"
 produces:
 - "application/json"
 parameters:
-      - name: "linkof papers"
+      - name: "links of papers"
         in: "body"        
-        description: "http link"
+        description: "http links"
         schema:
             type: object
             properties:
@@ -18,6 +18,10 @@ parameters:
 responses:
         "200":
           description: "successful operation"
+
         "400":
           description: "Invalid Order"
+
+        "404":
+          description: "Service is not working"
             

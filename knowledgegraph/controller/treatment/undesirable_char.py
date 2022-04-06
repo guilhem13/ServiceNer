@@ -1,5 +1,5 @@
 undesirable_char_replacements = {
-    # Control characters not allowed in XML:
+    # Control characters not allowed:
     "\u2028": "",
     "\u2029": "",
     "\u202A": "",
