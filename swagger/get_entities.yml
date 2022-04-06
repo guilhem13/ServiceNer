@@ -1,17 +1,20 @@
 openapi: 3.0.3
 tags:
-  - ""
-summary: "Upload a PDF file"
-description: "This route allows the user to upload a pdf file and return the entities detected in this file"
+  - "get entities from batch"
+summary: "Return all the entities found inside a batch of [1;5] papers"
+description: "This route allows the user to use this entrypoint as a post request. This entrypoint return all the entities found inside the links puts as inputs"
 consumes:
 - "application/json"
 produces:
 - "application/json"
 parameters:
-      - in: "body"
-        name: "body"
-        description: ""
-        required: true
+      - name: "linkof papers"
+        in: "body"        
+        description: "http link"
+        schema:
+            type: object
+            properties:
+            
 responses:
         "200":
           description: "successful operation"

@@ -190,6 +190,14 @@ class Textprocessed:
             "Research",
             "Verification",
             "Network",
+            "Interestingly",
+            "Sciences",
+            "Representations",
+            "Foundations",
+            "Knowledge",
+            "Discovery",
+            "Conference",
+            "Proceedings"
         ]
         while index < len(forbidden_list) or stop == False:
             if entity.nom == forbidden_list[index]:
