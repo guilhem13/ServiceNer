@@ -1,6 +1,6 @@
 # Arxiv ontology API 
 
-It's a simple REST API which process a batch of 5 papers from arxiv in order to return their entities. 
+It's a simple REST API which process a batch of 5 papers (5 url links of arxiv paper) in order to return their entities. 
 This web service is available direclty with the code or by the docker file 
 ***
 
